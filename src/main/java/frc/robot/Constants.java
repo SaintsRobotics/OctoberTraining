@@ -1,15 +1,15 @@
 package frc.robot;
 
 public final class Constants {
-    public final int kFrontLeftDriveMotorPort = 8;
-    public final int kFrontLeftTurningMotorPort = 1;
-    public final int kBackLeftDriveMotorPort = 2;
-    public final int kBackLeftTurningMotorPort = 3;
-    public final int kFrontRightDriveMotorPort = 4;
-    public final int kFrontRightTurningMotorPort = 5;
-    public final int kBackRightDriveMotorPort = 6;
-    public final int kBackRightTurningMotorPort = 7;
+    public final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+    public final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
+    public final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 2;
+    public final int FRONT_RIGHT_TURNING_MOTOR_PORT = 3;
+    public final int BACK_LEFT_DRIVE_MOTOR_PORT = 4;
+    public final int BACK_LEFT_TURNING_MOTOR_PORT = 5;
+    public final int BACK_RIGHT_DRIVE_MOTOR_PORT = 6;
+    public final int BACK_RIGHT_TURNING_MOTOR_PORT = 7;
 
-    public final double kSwerveX = 0.33;
-    public final double kSwerveY = 0.25;
+    public final double SWERVE_X = 0.33;
+    public final double SWERVE_Y = 0.25;
 }
