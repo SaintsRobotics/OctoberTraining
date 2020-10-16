@@ -16,18 +16,19 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public final int m_frontLeftDriveMotorPort = 8;
-    public final int m_frontLeftTurningMotorPort = 1;
+    public int m_frontLeftDriveMotorPort = 8;
+    public int m_frontLeftTurningMotorPort = 1;
 
-    public final int m_backLeftDriveMotorPort = 2;
-    public final int m_backLeftTurningMotorPort = 3;
+    public int m_backLeftDriveMotorPort = 2;
+    public int m_backLeftTurningMotorPort = 3;
 
-    public final int m_frontRightDriveMotorPort = 4;
-    public final int m_frontRightTurningMotorPort = 5;
-   
-    public final int m_backRightDriveMotorPort = 6;
-    public final int m_backRightTurningMotorPort = 7;
+    public int m_frontRightDriveMotorPort = 4;
+    public int m_frontRightTurningMotorPort = 5;
 
-    public final double swerveX = 0.67/2;
-    public final double swerveY = 0.25;
+    public int m_backRightDriveMotorPort = 6;
+    public int m_backRightTurningMotorPort = 7;
+
+    public double swerveX = .67/2;
+    public double swerveY = .25;
+
 }
