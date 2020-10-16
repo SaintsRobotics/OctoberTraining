@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -16,4 +17,20 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    
+    public final int m_frontLeftDrivePort = 8;
+    public final int m_frontLeftTurnPort = 1;
+
+    public final int m_backLeftDrivePort = 2;
+    public final int m_backLeftTurnPort = 3;
+
+    public final int m_frontRightDrivePort = 4;
+    public final int m_frontRightTurnPort = 5;
+
+    public final int m_backRightDrivePort = 6;
+    public final int m_backRightTurnPort = 7;
+
+
+    public final double swerveX = .67/2;
+    public final double swerveY = .25;
 }
