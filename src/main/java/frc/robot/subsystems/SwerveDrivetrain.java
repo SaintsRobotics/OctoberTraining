@@ -73,5 +73,11 @@ public class SwerveDrivetrain extends SubsystemBase {
   public void periodic() {
     SwerveModuleState[] swerveModuleStates;
     swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed));
+    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, 1);
+    m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
+    m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
+    m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
+    m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
+
   }
 }
