@@ -50,27 +50,12 @@ public class SwerveDrivetrain extends SubsystemBase{
     m_frontRightDriveMotor = new CANSparkMax(m_constants.m_frontRightDriveMotorPort, MotorType.kBrushless);
     m_backLeftDriveMotor = new CANSparkMax(m_constants.m_backLeftDriveMotorPort, MotorType.kBrushless);
     m_backRightDriveMotor = new CANSparkMax(m_constants.m_backRightDriveMotorPort, MotorType.kBrushless);
-<<<<<<< HEAD
-
-=======
     
->>>>>>> master
     m_frontLeftTurningMotor = new CANSparkMax(m_constants.m_frontLeftTurningMotorPort, MotorType.kBrushless);
     m_frontRightTurningMotor = new CANSparkMax(m_constants.m_frontRightTurningMotorPort, MotorType.kBrushless);
     m_backLeftTurningMotor = new CANSparkMax(m_constants.m_backLeftTurningMotorPort, MotorType.kBrushless);
     m_backRightTurningMotor = new CANSparkMax(m_constants.m_backRightTurningMotorPort, MotorType.kBrushless);
   
-<<<<<<< HEAD
-    m_frontLeftDriveMotor.setInverted(true);
-    m_backLeftDriveMotor.setInverted(true);
-
-    m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor, -m_constants.swerveX, m_constants.swerveY);
-    m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, m_constants.swerveX, m_constants.swerveY);
-    m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, -m_constants.swerveX, -m_constants.swerveY);
-    m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, m_constants.swerveX, -m_constants.swerveY);
- 
-    m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(), m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(), m_backRightSwerveWheel.getLocation());
-=======
   
     m_frontLeftDriveMotor.setInverted(true);
     m_backLeftDriveMotor.setInverted(true);
@@ -84,7 +69,6 @@ public class SwerveDrivetrain extends SubsystemBase{
   
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(), m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(), m_backRightSwerveWheel.getLocation());
   
->>>>>>> master
   }
 
 public void move(double xSpeed, double ySpeed, double rotSpeed){
@@ -97,20 +81,15 @@ public void move(double xSpeed, double ySpeed, double rotSpeed){
 
   @Override
   public void periodic() {
-<<<<<<< HEAD
-    SwerveModuleState[] swerveModuleStates;
-    swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed));
-  }
-
-  public void move (double xSpeed, double ySpeed, double rotationSpeed) {
-    m_xSpeed = xSpeed;
-    m_ySpeed = ySpeed;
-    m_rotationSpeed = rotationSpeed;
-=======
     // This method will be called once per scheduler run
     SwerveModuleState[] swerveModuleStates;
     swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
+    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, 1);
+    m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
+    m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
+    m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
+    m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
 
->>>>>>> master
+    
   }
 }
