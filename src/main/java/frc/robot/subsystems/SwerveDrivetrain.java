@@ -81,7 +81,8 @@ public class SwerveDrivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SwerveModuleState[] swerveModuleStates; //holds what wheels need to do
-    swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed)); //swervemodulestates -> 
+    swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed)); //swervemodulestates -> converts m/s and rotation speed swerve must do, unique speeds are found with translation2d pose
+    
 
   }
 }
