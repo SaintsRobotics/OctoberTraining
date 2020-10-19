@@ -24,7 +24,7 @@ public class SwerveWheel {
     private Translation2d m_location;
     private PIDController m_turningPIDController;
     private Encoder m_turningEncoder;
-    
+
     public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turnMotor, double x, double y){
         m_driveMotor = driveMotor;
         m_turnMotor = turnMotor;
@@ -40,6 +40,9 @@ public class SwerveWheel {
 
     public void setDesiredState(SwerveModuleState State){
         m_driveMotor.set(state.speedMetersPerSecond);
+        m_turningPIDController.setSetpoint(state.angle.getRadians());
+        double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getDistance());
+        m_turnMotor.set(pidOutput);
 
     }
 }

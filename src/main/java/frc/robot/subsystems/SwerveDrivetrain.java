@@ -91,9 +91,9 @@ public void move(double xSpeed, double ySpeed, double rotSpeed){
     SwerveModuleState[] swerveModuleStates; //holds what wheels need to do
     swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed)); //swervemodulestates -> converts m/s and rotation speed swerve must do, unique speeds are found with translation2d pose
     
-    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, 1);
+    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, 1); //
 
-    m_frontLeftSwerveWheel.setDesiredState(swerveModuleState[0]);
+    m_frontLeftSwerveWheel.setDesiredState(swerveModuleState[0]); 
     m_frontRightSwerveWheel.setDesiredState(swerveModuleState[1]);
     m_backLeftSwerveWheel.setDesiredState(swerveModuleState[2]);
     m_backRightSwerveWheel.setDesiredState(swerveModuleState[3]);
