@@ -2,25 +2,23 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants;
 
 public class SwerveDrivetrain extends SubsystemBase {
-
   private Constants m_constants;
 
   private CANSparkMax m_frontLeftDriveMotor;
-  private CANSparkMax m_frontLeftTurningMotor;
   private CANSparkMax m_frontRightDriveMotor;
-  private CANSparkMax m_frontRightTurningMotor;
   private CANSparkMax m_backLeftDriveMotor;
-  private CANSparkMax m_backLeftTurningMotor;
   private CANSparkMax m_backRightDriveMotor;
+
+  private CANSparkMax m_frontLeftTurningMotor;
+  private CANSparkMax m_frontRightTurningMotor;
+  private CANSparkMax m_backLeftTurningMotor;
   private CANSparkMax m_backRightTurningMotor;
 
   private SwerveWheel m_frontLeftSwerveWheel;
@@ -78,6 +76,5 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
     m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
     m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
-
   }
 }
