@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrivetrain;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class SwerveJoystickCommand extends CommandBase {
   private SwerveDrivetrain m_drivetrain;
   private XboxController m_controller;
   private Constants m_constants;
+
   /**
    * Creates a new SwerveJoystickCommand.
    */
@@ -25,7 +26,7 @@ public class SwerveJoystickCommand extends CommandBase {
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
     m_controller = new XboxController(0);
-
+    m_constants = constants; 
   }
 
   // Called when the command is initially scheduled.
@@ -37,16 +38,16 @@ public class SwerveJoystickCommand extends CommandBase {
   @Override
   public void execute() {
     double x = -m_controller.getY(Hand.kLeft) * m_constants.maxMetersPerSecond;
-    double y = -m_controller.getX(Hand.kLeft) * m_constants.maxMetersPerSecond;
-    double rot = -m_controller.getY(Hand.kRight) * m_constants.maxRadiansPerSecond;
+    double y =  m_controller.getX(Hand.kLeft) * m_constants.maxMetersPerSecond;
+    double rot = m_controller.getX(Hand.kRight) * m_constants.maxRadiansPerSecond;
+    m_drivetrain.move(x, y, rot, m_controller.getBumper(Hand.kRight));
 
-    m_drivetrain.move(x, y, rot);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.move(0,0,0);
+    m_drivetrain.move(0,0,0, false);
   }
 
   // Returns true when the command should end.
