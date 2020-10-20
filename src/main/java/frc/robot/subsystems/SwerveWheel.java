@@ -8,13 +8,13 @@
 package frc.robot.subsystems;
 
 
-import com.kauailabs.navx.IMUProtocol.YPRUpdate;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 
@@ -33,7 +33,7 @@ public class SwerveWheel {
         m_driveMotor = driveMotor;
         m_turningMotor = turningMotor;
         m_location = new Translation2d(x, y);
-        m_turningPIDController = new  PIDController(.3, 0, 0);
+        m_turningPIDController = new PIDController(.3, 0, 0);
         m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
         m_turningEncoder = new Encoder(0, 1);
 
@@ -56,5 +56,7 @@ public class SwerveWheel {
 
 
     }
+
+   
     
 }
