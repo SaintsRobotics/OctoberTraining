@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.SwerveJoystickCommand;
+import frc.robot.subsystems.SwerveDrivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -19,9 +21,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  Constants constants = new Constants();
   // The robot's subsystems and commands are defined here...
-  
-
+  SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain(constants);
+  SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain, constants);
 
 
   /**
@@ -30,6 +33,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    swerveDrivetrain.setDefaultCommand(swerveJoystickCommand);
   }
 
   /**

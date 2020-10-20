@@ -40,6 +40,8 @@ public class SwerveDrivetrain extends SubsystemBase{
   private double m_rotSpeed;
 
   private SwerveDriveKinematics m_kinematics;
+
+  
   
   /**
    * Creates a new SwerveDrivetrain.
@@ -71,10 +73,11 @@ public class SwerveDrivetrain extends SubsystemBase{
   
   }
 
-public void move(double xSpeed, double ySpeed, double rotSpeed){
+public void move(double xSpeed, double ySpeed, double rotSpeed, Boolean isFieldRelative){
   m_xSpeed = xSpeed;
   m_ySpeed = ySpeed;
   m_rotSpeed = rotSpeed;
+  m_isFieldRelative = isFieldRelative;
 }
 
 

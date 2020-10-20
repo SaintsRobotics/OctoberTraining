@@ -16,6 +16,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public double maxMetersPerSecond = 3.66;
+    public double maxRadiansPerSecond = 8.76;
+
     public int m_frontLeftDriveMotorPort = 8;
     public int m_frontLeftTurningMotorPort = 1;
 

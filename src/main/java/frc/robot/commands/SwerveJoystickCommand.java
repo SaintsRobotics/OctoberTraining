@@ -7,14 +7,24 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.SwerveDrivetrain;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class SwerveJoystickCommand extends CommandBase {
+  private SwerveDrivetrain m_drivetrain;
+  private XboxController m_controller;
+  private Constants m_constants;
   /**
    * Creates a new SwerveJoystickCommand.
    */
-  public SwerveJoystickCommand() {
+  public SwerveJoystickCommand(SwerveDrivetrain drivetrain, Constants constants) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivetrain);
+    m_drivetrain = drivetrain;
+    m_controller = new XboxController(0);
 
   }
 
@@ -26,11 +36,17 @@ public class SwerveJoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double x = -m_controller.getY(Hand.kLeft) * m_constants.maxMetersPerSecond;
+    double y = -m_controller.getX(Hand.kLeft) * m_constants.maxMetersPerSecond;
+    double rot = -m_controller.getY(Hand.kRight) * m_constants.maxRadiansPerSecond;
+
+    m_drivetrain.move(x, y, rot);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_drivetrain.move(0,0,0);
   }
 
   // Returns true when the command should end.
