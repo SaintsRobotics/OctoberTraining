@@ -12,4 +12,7 @@ public final class Constants {
 
     public final double SWERVE_X = 0.33;
     public final double SWERVE_Y = 0.25;
+
+    public final double MAX_METERS_PER_SECOND = 3.66;
+    public final double MAX_RADIANS_PER_SECOND = 8.76;
 }

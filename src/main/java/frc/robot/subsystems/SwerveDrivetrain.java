@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
@@ -12,25 +15,25 @@ public class SwerveDrivetrain extends SubsystemBase {
   private Constants m_constants;
 
   private CANSparkMax m_frontLeftDriveMotor;
-  private CANSparkMax m_frontRightDriveMotor;
-  private CANSparkMax m_backLeftDriveMotor;
-  private CANSparkMax m_backRightDriveMotor;
-
   private CANSparkMax m_frontLeftTurningMotor;
+  private CANSparkMax m_frontRightDriveMotor;
   private CANSparkMax m_frontRightTurningMotor;
+  private CANSparkMax m_backLeftDriveMotor;
   private CANSparkMax m_backLeftTurningMotor;
+  private CANSparkMax m_backRightDriveMotor;
   private CANSparkMax m_backRightTurningMotor;
-
   private SwerveWheel m_frontLeftSwerveWheel;
   private SwerveWheel m_frontRightSwerveWheel;
   private SwerveWheel m_backLeftSwerveWheel;
   private SwerveWheel m_backRightSwerveWheel;
-
   private SwerveDriveKinematics m_kinematics;
+  private AHRS m_gyro;
 
   private double m_xSpeed;
   private double m_ySpeed;
   private double m_rotationSpeed;
+  private boolean m_isFieldRelative;
+
 
   public SwerveDrivetrain(Constants constants) {
     m_constants = constants;
@@ -48,28 +51,38 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_backLeftDriveMotor.setInverted(true);
 
     m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor, -m_constants.SWERVE_X,
-        -m_constants.SWERVE_Y);
+        -m_constants.SWERVE_Y, constants);
     m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, -m_constants.SWERVE_X,
-        m_constants.SWERVE_Y);
+        m_constants.SWERVE_Y, constants);
     m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, m_constants.SWERVE_X,
-        -m_constants.SWERVE_Y);
+        -m_constants.SWERVE_Y, constants);
     m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, m_constants.SWERVE_X,
-        m_constants.SWERVE_Y);
+        m_constants.SWERVE_Y, constants);
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(),
         m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(),
         m_backRightSwerveWheel.getLocation());
+
+    m_gyro = new AHRS();
   }
 
-  public void move(double xSpeed, double ySpeed, double rotationSpeed) {
+  public void move(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
     m_xSpeed = xSpeed;
     m_ySpeed = ySpeed;
     m_rotationSpeed = rotationSpeed;
+    m_isFieldRelative = isFieldRelative;
   }
 
   @Override
   public void periodic() {
     SwerveModuleState[] swerveModuleStates;
+    if (m_isFieldRelative) {
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(
+          ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed, new Rotation2d(
+              2 * Math.PI - ((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2))));
+    } else {
+
+    }
     swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotationSpeed));
     m_kinematics.normalizeWheelSpeeds(swerveModuleStates, 1);
     m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
