@@ -33,4 +33,8 @@ public final class Constants {
     //swerve wheel locations relative to center of bot
     public final double swerveX = .67/2;
     public final double swerveY = .25;
+
+    //speed
+    public final double maxMetersPerSecond = 3.66;
+    public final double maxRadiansPerSecond = 8.76; //turning speed
 }

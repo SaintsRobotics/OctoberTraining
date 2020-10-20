@@ -24,14 +24,16 @@ public class SwerveWheel {
     private Translation2d m_location;
     private PIDController m_turningPIDController;
     private Encoder m_turningEncoder;
+    private Constants m_constants;
 
-    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turnMotor, double x, double y){
+    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turnMotor, double x, double y, Constants constants){
         m_driveMotor = driveMotor;
         m_turnMotor = turnMotor;
         m_location = new Translation2d(x, y); //translation2d is where module on the robot
         m_turningPIDController = new PIDController(.3, 0, 0);
         m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
         m_turningEncoder = new Encoder(0, 1);
+        m_constants = constants;
     }
 
     public Translation2d getPosition(){
@@ -39,7 +41,7 @@ public class SwerveWheel {
     }
 
     public void setDesiredState(SwerveModuleState State){
-        m_driveMotor.set(state.speedMetersPerSecond);
+        m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
         m_turningPIDController.setSetpoint(state.angle.getRadians());
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getDistance());
         m_turnMotor.set(pidOutput);
