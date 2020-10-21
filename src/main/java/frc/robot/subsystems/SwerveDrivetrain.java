@@ -40,6 +40,9 @@ public class SwerveDrivetrain extends SubsystemBase{
   private double m_rotSpeed;
 
   private SwerveDriveKinematics m_kinematics;
+
+
+  
   
   /**
    * Creates a new SwerveDrivetrain.
