@@ -30,4 +30,11 @@ public final class Constants {
 
     public double swerveX = .67/2;
     public double swerveY = .25;
+<<<<<<< HEAD
+=======
+
+    public double maxMetersPerSecond = 3.66;
+    public double maxRadiansPerSecond = 8.76;
+
+>>>>>>> cc23a6c600c832cef0223587c31f6f278d54cf35
 }
