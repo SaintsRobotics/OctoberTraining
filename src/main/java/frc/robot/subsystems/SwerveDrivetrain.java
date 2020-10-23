@@ -90,7 +90,7 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
     // This method will be called once per scheduler run
     SwerveModuleState[] swerveModuleStates;
     if (m_isFieldRelative) {
-      swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(2* Math.PI - ((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
     } else {
       swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
