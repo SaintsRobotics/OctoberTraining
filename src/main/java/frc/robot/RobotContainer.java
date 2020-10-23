@@ -21,12 +21,9 @@ import frc.robot.subsystems.SwerveDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  Constants constants = new Constants();
+  
   // The robot's subsystems and commands are defined here...
-<<<<<<< HEAD
-=======
   Constants constants = new Constants();
->>>>>>> origin/master
   SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain(constants);
   SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain, constants);
 
