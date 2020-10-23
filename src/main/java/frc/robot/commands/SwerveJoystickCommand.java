@@ -26,7 +26,7 @@ public class SwerveJoystickCommand extends CommandBase {
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
     m_controller = new XboxController(0);
-    m_constants = constants; 
+    m_constants = constants;
   }
 
   // Called when the command is initially scheduled.
@@ -40,8 +40,8 @@ public class SwerveJoystickCommand extends CommandBase {
     double x = -m_controller.getY(Hand.kLeft) * m_constants.maxMetersPerSecond;
     double y =  m_controller.getX(Hand.kLeft) * m_constants.maxMetersPerSecond;
     double rot = m_controller.getX(Hand.kRight) * m_constants.maxRadiansPerSecond;
-    m_drivetrain.move(x, y, rot, m_controller.getBumper(Hand.kRight));
 
+    m_drivetrain.move(x, y, rot, m_controller.getBumper(Hand.kRight));
   }
 
   // Called once the command ends or is interrupted.

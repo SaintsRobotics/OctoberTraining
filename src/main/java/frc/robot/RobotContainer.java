@@ -27,7 +27,6 @@ public class RobotContainer {
   SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain, constants);
 
 
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */

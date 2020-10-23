@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -74,7 +73,7 @@ public class SwerveDrivetrain extends SubsystemBase{
   
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(), m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(), m_backRightSwerveWheel.getLocation());
   
-   m_gyro = new AHRS();
+    m_gyro = new AHRS();
   }
 
 public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldRelative){
@@ -91,11 +90,10 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
   public void periodic() {
     // This method will be called once per scheduler run
     SwerveModuleState[] swerveModuleStates;
-    if(m_isFieldRelative){
-      swerveModuleStates = m_kinematics.toSwerveModuleStates(
-        ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(2* Math.PI - ((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
-    }else{  
-    swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
+    if (m_isFieldRelative) {
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
+    } else {
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
     m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
     

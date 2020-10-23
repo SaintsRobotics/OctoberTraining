@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
@@ -46,10 +45,10 @@ public class SwerveWheel {
 
     public void setDesiredState(SwerveModuleState state){
         m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
-        
+
         m_turningPIDController.setSetpoint(state.angle.getRadians());
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getDistance());
-        
+
         m_turningMotor.set(pidOutput);
     }
     
