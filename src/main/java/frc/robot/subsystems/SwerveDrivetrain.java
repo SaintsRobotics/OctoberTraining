@@ -97,7 +97,7 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
   public void periodic() {
     // This method will be called once per scheduler run
 
-    //heading correction
+    //heading correction 
     //getRate is checking rotation in deg/sec, if <0.05 then no change needed
     if (Utils.deadZones(m_gyro.getRate(), 0.05) != 0){ //checks rotation, always is a value bc vibrate -> need deadzone to eliminate common vibrations
       m_isTurning = true;
@@ -107,9 +107,9 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
       m_pidController.setSetpoint(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //store heading, keep degrees for now
       m_rotSpeed = m_pidController.calculate(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //gets the error to correct heading times kp, using gyro angle
     }
-    else if(m_xSpeed != 0 || m_ySpeed != 0){ //if moving at all
+    else if(m_xSpeed != 0 || m_ySpeed != 0){ //if moving at all, assume drift, but if rotating, then first conditional just sets isTurning as true, no heading correction
       m_rotSpeed = m_pidController.calculate(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //if off, gives correction as rotation speed
-      
+      //if value less than tolerance (1/36), then calculate is just 0 (no rotate)
     
     }
 
