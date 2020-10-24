@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Utils;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SwerveJoystickCommand extends CommandBase {
@@ -24,9 +25,11 @@ public class SwerveJoystickCommand extends CommandBase {
 
   @Override
   public void execute() {
-    m_drivetrain.move(-m_controller.getY(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND,
-        m_controller.getX(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND,
-        m_controller.getX(Hand.kRight) * m_constants.MAX_RADIANS_PER_SECOND, m_controller.getBumper(Hand.kRight));
+    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND, 0.2));
+    double y = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND, 0.2));
+    double rotation = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kRight) * m_constants.MAX_RADIANS_PER_SECOND, 0.2));
+
+    m_drivetrain.move(x, y, rotation, m_controller.getBumper(Hand.kRight));
   }
 
   @Override
