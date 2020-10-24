@@ -11,14 +11,16 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utils;
 
-public class SwerveDrivetrain extends SubsystemBase{
+public class SwerveDrivetrain extends SubsystemBase {
   private CANSparkMax m_frontLeftDriveMotor;
   private CANSparkMax m_frontRightDriveMotor;
   private CANSparkMax m_backLeftDriveMotor;
@@ -44,7 +46,11 @@ public class SwerveDrivetrain extends SubsystemBase{
   private SwerveDriveKinematics m_kinematics;
 
   private AHRS m_gyro;
-  
+
+  private boolean m_isTurning = false;
+
+  private PIDController m_pidController;
+
   /**
    * Creates a new SwerveDrivetrain.
    */
@@ -74,33 +80,46 @@ public class SwerveDrivetrain extends SubsystemBase{
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(), m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(), m_backRightSwerveWheel.getLocation());
   
     m_gyro = new AHRS();
+
+    m_pidController = new PIDController((constants.maxMetersPerSecond/ 180)*5, 0, 0);
   }
 
-public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldRelative){
-  m_xSpeed = xSpeed;
-  m_ySpeed = ySpeed;
-  m_rotSpeed = rotSpeed;
-  m_isFieldRelative = isFieldRelative;
-}
-
-
+  public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldRelative) {
+    m_xSpeed = xSpeed;
+    m_ySpeed = ySpeed;
+    m_rotSpeed = rotSpeed;
+    m_isFieldRelative = isFieldRelative;
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (Utils.deadZones(m_gyro.getRate(), 0.05) != 0) {
+      m_isTurning = true;
+    } else if (m_isTurning = true && Utils.deadZones(m_gyro.getRate(), 0.05) == 0) {
+      m_isTurning = false;
+      m_pidController.setSetpoint(Math.toRadians(m_gyro.getAngle()));
+
+
+    } else if (m_xSpeed != 0 || m_ySpeed != 0) {
+
+    }
+
     SwerveModuleState[] swerveModuleStates;
     if (m_isFieldRelative) {
-      swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
+      swerveModuleStates = m_kinematics
+          .toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed,
+              new Rotation2d(((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2))));
     } else {
       swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
     m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
-    
+
     m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
     m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
     m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
     m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
 
-}
+  }
 
 }
