@@ -47,11 +47,11 @@ public class SwerveDrivetrain extends SubsystemBase{
   private SwerveDriveKinematics m_kinematics;
 
   private AHRS m_gyro;
+  private boolean m_isTurning; //dont want it to reset each time a method is called, want to save it
 
-  private boolean m_isTurning = false;
+  //need pid to save headings/dynamic controls
   private PIDController m_pidController;
-  
-  
+
   /**
    * Creates a new SwerveDrivetrain.
    */
@@ -82,9 +82,9 @@ public class SwerveDrivetrain extends SubsystemBase{
   
     m_gyro = new AHRS();
 
-    m_pidController = new PIDController(Math.toRadians((constants.maxMetersPerSecond/ 180) *5), 0, 0);
-    m_pidController.enableContinuousInput(0, Math.PI *2);
-    m_pidController.setTolerance(1/36);
+    m_pidController = new PIDController(Math.toRadians((m_constants.maxMetersPerSecond/180)*5), 0, 0); //needs import
+    m_pidController.enableContinuousInput(0, Math.PI * 2);
+    m_pidController.setTolerance(1/36); //if off by a lil bit, then dont do anything (is in radians)
   }
 
 public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldRelative){
@@ -100,26 +100,33 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (Utils.deadZones(m_gyro.getRate(), 0.05) !=0 ){
+
+    //heading correction 
+    //getRate is checking rotation in deg/sec, if <0.05 then no change needed
+    if (Utils.deadZones(m_gyro.getRate(), 0.05) != 0){ //checks rotation, always is a value bc vibrate -> need deadzone to eliminate common vibrations
       m_isTurning = true;
     }
-    else if(m_isTurning = true && Utils.deadZones(m_gyro.getRate(), 0.05) ==0 ){
+    else if(m_isTurning = true && Utils.deadZones(m_gyro.getRate(), 0.05) == 0){ //if deadzone/getRate is 0, so not turning, but m_isTurning is true (we were just turning), then want to do smth
       m_isTurning = false;
-      m_pidController.setSetpoint(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2));
-      m_rotSpeed  = m_pidController.calculate(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2));
-    }else if( m_xSpeed != 0 || m_ySpeed != 0){
-      m_rotSpeed  = m_pidController.calculate(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2));
-
+      m_pidController.setSetpoint(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //store heading, keep degrees for now
+      m_rotSpeed = m_pidController.calculate(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //gets the error to correct heading times kp, using gyro angle
     }
-      
+    else if(m_xSpeed != 0 || m_ySpeed != 0){ //if moving at all, assume drift, but if rotating, then first conditional just sets isTurning as true, no heading correction
+      m_rotSpeed = m_pidController.calculate(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //if off, gives correction as rotation speed
+      //if value less than tolerance (1/36), then calculate is just 0 (no rotate)
+    
+    }
+
+
+
+
 
 
     SwerveModuleState[] swerveModuleStates;
-    if(m_isFieldRelative){
-      swerveModuleStates = m_kinematics.toSwerveModuleStates(
-        ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(2* Math.PI - ((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2))));
-    }else{  
-    swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
+    if (m_isFieldRelative) { //chassisspeeds for first conditional is from wpilib, doesnt need instantiated
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(((Math.toRadians(m_gyro.getAngle()) %(Math.PI *2)) + (Math.PI *2)) %(Math.PI *2)))); //instead of new chassisspeeds, use method from chassisspeeds to field relative
+    } else {
+      swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
     m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
     
