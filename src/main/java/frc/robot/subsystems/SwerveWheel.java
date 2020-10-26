@@ -12,8 +12,14 @@ import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
+=======
+import frc.robot.Constants;
+
+
+>>>>>>> master
 /**
  * Add your docs here.
  */
@@ -26,7 +32,7 @@ public class SwerveWheel {
     private Encoder m_turningEncoder;
     private Constants m_constants;
 
-    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turnMotor, double x, double y, Constants constants){
+    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turningMotor, double x, double y, Constants constants){
         m_driveMotor = driveMotor;
         m_turnMotor = turnMotor;
         m_location = new Translation2d(x, y); //translation2d is where module on the robot
@@ -40,11 +46,12 @@ public class SwerveWheel {
         return m_location;
     }
 
-    public void setDesiredState(SwerveModuleState State){
+    public void setDesiredState(SwerveModuleState state){
         m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
+
         m_turningPIDController.setSetpoint(state.angle.getRadians());
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getDistance());
-        m_turnMotor.set(pidOutput);
 
+        m_turningMotor.set(pidOutput);
     }
 }
