@@ -90,7 +90,7 @@ public class SwerveDrivetrain extends SubsystemBase {
           .calculate(Math.toRadians(m_gyro.getAngle() % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)));
     } else if (m_xSpeed != 0 || m_ySpeed != 0) {
       m_rotationSpeed = m_PIDController
-          .calculate(Math.toRadians(m_gyro.getAngle() % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)));
+          .calculate(Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2));
     }
 
     SwerveModuleState[] swerveModuleStates;
