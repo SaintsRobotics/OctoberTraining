@@ -37,7 +37,7 @@ public class SwerveWheel {
         m_turningPIDController = new PIDController(.3, 0, 0);
         m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
         m_turningEncoder = new Encoder(0, 1);
-
+        m_constants = constants;
 
     }
 
