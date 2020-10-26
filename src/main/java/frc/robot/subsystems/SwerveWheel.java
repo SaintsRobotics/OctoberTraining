@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -25,7 +25,7 @@ public class SwerveWheel {
     private CANSparkMax m_driveMotor;
     private CANSparkMax m_turningMotor;
     private Translation2d m_location;
-    private PIDController m_turningPidController;
+    private PIDController m_turningPIDController;
     private Encoder m_turningEncoder;
     private Constants m_constants;
 
@@ -33,20 +33,24 @@ public class SwerveWheel {
         m_driveMotor = driveMotor;
         m_turningMotor = turningMotor;
         m_location = new Translation2d(x, y);
-        m_turningPidController = new PIDController(0.3, 0, 0);
-        m_turningPidController.enableContinuousInput(0, 2*Math.PI);
+        m_turningPIDController = new PIDController(.3, 0, 0);
+        m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
         m_turningEncoder = new Encoder(0, 1);
-        m_constants = constants;
+
+
     }
 
     public Translation2d getLocation(){
         return m_location;
     }
-    
+
     public void setDesiredState(SwerveModuleState state){
         m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
-        m_turningPidController.setSetpoint(state.angle.getRadians());
-        double pidOutput = m_turningPidController.calculate(m_turningEncoder.getDistance());
+
+        m_turningPIDController.setSetpoint(state.angle.getRadians());
+        double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getDistance());
+
         m_turningMotor.set(pidOutput);
     }
+    
 }
