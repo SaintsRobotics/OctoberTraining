@@ -34,4 +34,18 @@ public final class Constants {
     public double maxMetersPerSecond = 3.66;
     public double maxRadiansPerSecond = 8.76;
 
+    //absolute encoder ports
+    public int frontLeftTurningEncoderPort = 0;
+    public int frontRightTurningEncoderPort = 1;
+    public int backRightTurningEncoderPort = 2;
+    public int backLeftTurningEncoderPort = 3;
+
+    //calibration units
+    //offsets are so that code can know for a fact when encoder reads 0
+    public double frontLeftSwerveOffset = 2.254991; //volts
+    public double frontRightSwerveOffset = 2.466641;
+    public double backLeftSwerveOffset = .279;
+    public double backRightSwerveOffset = 3.25;
+
+    public double translationalFriction = 0.0205;
 }
