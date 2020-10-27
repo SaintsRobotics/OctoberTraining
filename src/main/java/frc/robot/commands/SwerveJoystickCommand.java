@@ -6,26 +6,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Utils;
 import frc.robot.subsystems.SwerveDrivetrain;
-import frc.robot.Utils;
 
 public class SwerveJoystickCommand extends CommandBase {
+  private Constants m_constants;
+
   private SwerveDrivetrain m_drivetrain;
   private XboxController m_controller;
-  private Constants m_constants;
-<<<<<<< HEAD
-
-=======
   private Utils m_utils;
-  /**
-   * Creates a new SwerveJoystickCommand.
-   */
->>>>>>> origin/master
-  public SwerveJoystickCommand(SwerveDrivetrain drivetrain, Constants constants) {
+
+  public SwerveJoystickCommand(SwerveDrivetrain drivetrain) {
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
-    m_controller = new XboxController(0);
-    m_constants = constants;
-    m_utils = new Utils();
+    m_controller = new XboxController(m_constants.XBOX_CONTROLLER_PORT);
   }
 
   @Override
@@ -33,17 +25,13 @@ public class SwerveJoystickCommand extends CommandBase {
   }
 
   @Override
-<<<<<<< HEAD
   public void execute() {
-    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND, 0.2));
-    double y = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kLeft) * m_constants.MAX_METERS_PER_SECOND, 0.2));
-    double rotation = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kRight) * m_constants.MAX_RADIANS_PER_SECOND, 0.2));
-=======
-  public void execute() { //if dont apply deadzone, then relation between joystick/speed is linear and no deadzones, we need these
-    double x = m_utils.oddSquare(m_utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2)) * m_constants.maxMetersPerSecond; //apply functions to controller values to 1) check deadzone 2) apply quadratic relation between controller/speed
-    double y =  m_utils.oddSquare(m_utils.deadZones(m_controller.getX(Hand.kLeft), 0.2)) * m_constants.maxMetersPerSecond;
-    double rot = m_utils.oddSquare(m_utils.deadZones(m_controller.getX(Hand.kRight), 0.2)) * m_constants.maxRadiansPerSecond;
->>>>>>> origin/master
+    double x = m_utils.oddSquare(m_utils.deadZones(-m_controller.getY(Hand.kLeft), 0.2))
+        * m_constants.MAX_METERS_PER_SECOND;
+    double y = m_utils.oddSquare(m_utils.deadZones(m_controller.getX(Hand.kLeft), 0.2))
+        * m_constants.MAX_METERS_PER_SECOND;
+    double rotation = m_utils.oddSquare(m_utils.deadZones(m_controller.getX(Hand.kRight), 0.2))
+        * m_constants.MAX_RADIANS_PER_SECOND;
 
     m_drivetrain.move(x, y, rotation, m_controller.getBumper(Hand.kRight));
   }

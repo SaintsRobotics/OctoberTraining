@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 import frc.robot.Utils;
 
@@ -28,6 +29,10 @@ public class SwerveDrivetrain extends SubsystemBase {
   private SwerveWheel m_frontRightSwerveWheel;
   private SwerveWheel m_backLeftSwerveWheel;
   private SwerveWheel m_backRightSwerveWheel;
+  private AbsoluteEncoder m_frontLeftTurningEncoder;
+  private AbsoluteEncoder m_frontRightTurningEncoder;
+  private AbsoluteEncoder m_backLeftTurningEncoder;
+  private AbsoluteEncoder m_backRightTurningEncoder;
   private SwerveDriveKinematics m_kinematics;
   private AHRS m_gyro;
   private PIDController m_PIDController;
@@ -35,6 +40,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   private boolean m_isTurning;
   private double m_xSpeed;
   private double m_ySpeed;
+  private AbsoluteEncoder m_turningEncoder;
   private double m_rotationSpeed;
   private boolean m_isFieldRelative;
 
@@ -61,6 +67,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         -m_constants.SWERVE_Y, constants);
     m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, m_constants.SWERVE_X,
         m_constants.SWERVE_Y, constants);
+    m_frontLeftTurningEncoder = new AbsoluteEncoder(m_constants.FRONT_LEFT_TURNING_ENCODER_PORT, true);
+    m_frontRightTurningEncoder = new AbsoluteEncoder(m_constants.FRONT_RIGHT_TURNING_ENCODER_PORT, true);
+    m_backLeftTurningEncoder = new AbsoluteEncoder(m_constants.BACK_LEFT_TURNING_ENCODER_PORT, true);
+    m_backRightTurningEncoder = new AbsoluteEncoder(m_constants.BACK_RIGHT_TURNING_ENCODER_PORT, true);
 
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(),
         m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(),
@@ -69,13 +79,15 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_gyro = new AHRS();
     m_PIDController = new PIDController(Math.toRadians((constants.MAX_METERS_PER_SECOND / 180) * 5), 0, 0);
     m_PIDController.enableContinuousInput(0, Math.PI * 2);
-    m_PIDController.setTolerance(1/36);
+    m_PIDController.setTolerance(1 / 36);
   }
 
-  public void move(double xSpeed, double ySpeed, double rotationSpeed, boolean isFieldRelative) {
-    m_xSpeed = xSpeed;
-    m_ySpeed = ySpeed;
+  public void move(double xSpeed, double ySpeed, AbsoluteEncoder turningEncoder, double rotationSpeed,
+      boolean isFieldRelative) {
+    m_xSpeed = xSpeed + m_constants.TRANSLATIONAL_FRICTION * xSpeed / Math.abs(xSpeed);
+    m_ySpeed = ySpeed + m_constants.TRANSLATIONAL_FRICTION * ySpeed / Math.abs(ySpeed);
     m_rotationSpeed = rotationSpeed;
+    m_turningEncoder = turningEncoder;
     m_isFieldRelative = isFieldRelative;
   }
 

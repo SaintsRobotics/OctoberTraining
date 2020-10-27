@@ -7,7 +7,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
 public class RobotContainer {
   Constants constants;
   SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain(constants);
-  SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain, constants);
+  SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain);
 
   public RobotContainer() {
     configureButtonBindings();
