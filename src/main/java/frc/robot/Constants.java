@@ -34,4 +34,13 @@ public final class Constants {
     public double maxMetersPerSecond = 3.65;
     public double maxRadiansPerSecond = 8.76;
 
+    public int frontLeftTurningEncoderPort = 0;
+    public int frontRightTurningEncoderPort = 1;
+    public int backLeftTurningEncoderPort = 3;
+    public int backRightTurningEncoderPort = 2;
+
+    public double frontLeftSwerveOffset = 2.254991;
+    public double frontRightSwerveOffset = 2.466641;
+    public double backLeftSwerveOffset = .279;
+    public double backRightSwerveOffset = 3.25;
 }

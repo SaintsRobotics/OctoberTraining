@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 import frc.robot.Utils;
 
@@ -35,6 +36,13 @@ public class SwerveDrivetrain extends SubsystemBase {
   private SwerveWheel m_frontRightSwerveWheel;
   private SwerveWheel m_backLeftSwerveWheel;
   private SwerveWheel m_backRightSwerveWheel;
+
+  private AbsoluteEncoder m_frontLeftTurningEncoder;
+  private AbsoluteEncoder m_frontRightTurningEncoder;
+  private AbsoluteEncoder m_backLeftTurningEncoder;
+  private AbsoluteEncoder m_backRightTurningEncoder;
+
+
 
   private Constants m_constants;
 
@@ -72,10 +80,18 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_frontRightDriveMotor.setInverted(false);
     m_backRightDriveMotor.setInverted(false);
 
-    m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor, -m_constants.swerveX, m_constants.swerveY, constants);
-    m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, -m_constants.swerveX, -m_constants.swerveY, constants);
-    m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, m_constants.swerveX, m_constants.swerveY, constants);
-    m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, m_constants.swerveX, -m_constants.swerveY, constants);
+    m_frontLeftTurningEncoder = new AbsoluteEncoder(m_constants.frontLeftTurningEncoderPort, true);
+    m_frontRightTurningEncoder = new AbsoluteEncoder(m_constants.frontRightTurningEncoderPort, true);
+    m_backLeftTurningEncoder = new AbsoluteEncoder(m_constants.backLeftTurningEncoderPort, true);
+    m_backRightTurningEncoder = new AbsoluteEncoder(m_constants.backRightTurningEncoderPort, true);
+
+
+
+
+    m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor, -m_constants.swerveX, m_constants.swerveY, constants, m_frontLeftTurningEncoder);
+    m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, -m_constants.swerveX, -m_constants.swerveY, constants, m_frontRightTurningEncoder);
+    m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, m_constants.swerveX, m_constants.swerveY, constants, m_backLeftTurningEncoder);
+    m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, m_constants.swerveX, -m_constants.swerveY, constants, m_backRightTurningEncoder);
   
     m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(), m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(), m_backRightSwerveWheel.getLocation());
   
