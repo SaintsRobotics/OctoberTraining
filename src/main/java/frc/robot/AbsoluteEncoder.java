@@ -15,23 +15,25 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class AbsoluteEncoder {
     private AnalogInput analogIn;
     private boolean isInverted;
-    private double voltageToDegrees = 360/5;
+    private double voltageToDegrees = 360 / 5;
     private double m_offset;
-    
+
     public AbsoluteEncoder(int channel, boolean inverted, double offset) {
         analogIn = new AnalogInput(channel);
         isInverted = inverted;
         m_offset = offset;
     }
 
-    private double getDegrees() {
+    public double getDegrees() {
         if (isInverted) {
-            return 5 - (analogIn.getVoltage()) * voltageToDegrees;
+            return (5 - analogIn.getVoltage() - m_offset) * voltageToDegrees;
         }
-        return analogIn.getVoltage() * voltageToDegrees;
+
+        return (analogIn.getVoltage() - m_offset) * voltageToDegrees;
+
     }
 
-    public double getRadians(){
+    public double getRadians() {
         return Math.toRadians(getDegrees());
     }
 }

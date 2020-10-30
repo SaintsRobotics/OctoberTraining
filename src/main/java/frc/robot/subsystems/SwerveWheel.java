@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 
 /**
  * Add your docs here.
@@ -30,28 +31,31 @@ public class SwerveWheel {
     private AbsoluteEncoder m_turningEncoder;
     private Constants m_constants;
 
-    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turningMotor, double x, double y, Constants constants, AbsoluteEncoder encoder){
+    public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turningMotor, double x, double y, AbsoluteEncoder encoder,
+            Constants constants) {
         m_driveMotor = driveMotor;
         m_turningMotor = turningMotor;
         m_location = new Translation2d(x, y);
         m_turningPIDController = new PIDController(.3, 0, 0);
-        m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
+        m_turningPIDController.enableContinuousInput(0, 2 * Math.PI);
         m_turningEncoder = encoder;
-
+        m_constants = constants;
 
     }
 
-    public Translation2d getLocation(){
+    public Translation2d getLocation() {
         return m_location;
+
     }
 
-    public void setDesiredState(SwerveModuleState state){
-        m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
+    public void setDesiredState(SwerveModuleState state) {
+        m_driveMotor.set(state.speedMetersPerSecond / m_constants.maxMetersPerSecond);
 
         m_turningPIDController.setSetpoint(state.angle.getRadians());
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getRadians());
 
         m_turningMotor.set(pidOutput);
+
     }
-    
+
 }
