@@ -7,14 +7,26 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SwerveJoystickCommand extends CommandBase {
+  private SwerveDrivetrain m_drivetrain;
+  private XboxController m_controller;
+  private Constants m_constants;
+
   /**
    * Creates a new SwerveJoystickCommand.
    */
-  public SwerveJoystickCommand() {
+  public SwerveJoystickCommand(SwerveDrivetrain drivetrain, Constants constants) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivetrain);
+    m_drivetrain = drivetrain;
+    m_controller = new XboxController(0);
+    m_constants = constants;
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +37,12 @@ public class SwerveJoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = Utils.oddSquare(Utils.deadZones(-m_controller.getY(Hand.kLeft, .2)) * m_constants.maxMetersPerSecond;
-    double y = Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kLeft, .2)) * m_constants.maxMetersPerSecond;
-    double rot= Utils.oddSquare(Utils.deadZones(m_controller.getX(Hand.kRight, .2)) *m_constants.maxRadiansPerSecond;
+    double x = -m_controller.getY(Hand.kLeft) * m_constants.maxMetersPerSecond;
+    double y =  m_controller.getX(Hand.kLeft) * m_constants.maxMetersPerSecond;
+    double rot = m_controller.getX(Hand.kRight) * m_constants.maxRadiansPerSecond;
 
     m_drivetrain.move(x, y, rot, m_controller.getBumper(Hand.kRight));
-  } 
-
+  }
 
   // Called once the command ends or is interrupted.
   @Override
