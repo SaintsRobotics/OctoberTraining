@@ -8,14 +8,19 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public double maxMetersPerSecond = 3.66;
+    public double maxRadiansPerSecond = 8.76;
+
     public int m_frontLeftDriveMotorPort = 8;
     public int m_frontLeftTurningMotorPort = 1;
 
@@ -28,13 +33,22 @@ public final class Constants {
     public int m_backRightDriveMotorPort = 6;
     public int m_backRightTurningMotorPort = 7;
 
-    public double swerveX = .67/2;
+    public double swerveX = .67 / 2;
     public double swerveY = .25;
 <<<<<<< HEAD
 =======
 
-    public double maxMetersPerSecond = 3.66;
-    public double maxRadiansPerSecond = 8.76;
+    public int m_frontLeftTurningEncoderPort = 0;
+    public int m_frontRightTurningEncoderPort = 1;
+    public int m_backLeftTurningEncoderPort = 2;
+    public int m_backRightTurningEncoderPort = 3;
+
+    public double frontLeftSwerveOffset = 2.254991;
+    public double frontRightSwerveOffset = 2.466641;
+    public double backLeftSwerveOffset = .279;
+    public double backRightSwerveOffset = 3.25;
+
+    public double translationalFriction = 0.0205;
 
 >>>>>>> cc23a6c600c832cef0223587c31f6f278d54cf35
 }
