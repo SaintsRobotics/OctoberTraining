@@ -46,10 +46,32 @@ public class SwerveWheel {
 
     }
 
+    private double smartInversion(SwerveModuleState targetState){ //state holds angle and velocity
+      
+        double diff = Math.abs(m_turningEncoder.getRadians() - targetState.angle.getRadians());
+        double targetHeading = targetState.angle.getRadians(); //angle of swervemodulestate
+        if(diff > Math.PI){ //see which way to turn (right/left) to get to ideal spot, use smaller difference
+        //if over 180 degrees away in on direction, then 2pi - angle is between 180 and 0 degrees away on the other direction
+            diff = 2*Math.PI - diff; /
+
+        }
+        //if easier to go other direction, invert velocity for shorter path
+        if(diff > Math.PI/2){ //if below 90, can just turn normally, go in if not under 90
+            targetHeading += Math.PI; //flip the target heading across circle to get closer to current heading
+            targetHeading %= 2*Math.PI; //gives you remainder, quotient usually 0 so it shouldnt change targetHeading
+            targetState.speedMetersPerSecond *= -1; //flipped heading, so must flip velocity sign to go desired direction
+
+        }
+        m_turningPIDController.setSetpoint((targetHeading % (2*Math.PI) + (Math.PI*2)) % (Math.PI*2));
+        return targetState.speedMetersPerSecond;
+    }
+
     public void setDesiredState(SwerveModuleState state){
-        m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
+        double driveOutput = smartInversion(state);
+
+        m_driveMotor.set(driveOutput/m_constants.maxMetersPerSecond);
         
-        m_turningPIDController.setSetpoint(state.angle.getRadians()); //want to turn wheel, pid turns wheel 180
+        //m_turningPIDController.setSetpoint(state.angle.getRadians()); //delete because use smart inversion instead
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getRadians());
 
         m_turningMotor.set(pidOutput);
