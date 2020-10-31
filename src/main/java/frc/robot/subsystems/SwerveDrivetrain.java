@@ -104,10 +104,10 @@ public class SwerveDrivetrain extends SubsystemBase{
 public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldRelative){
   m_xSpeed = xSpeed;
   m_xSpeed += m_constants.translationalFriction * m_xSpeed/Math.abs(m_xSpeed);
-  m_ySpeed = ySpeed 
+  m_ySpeed = ySpeed; 
   m_ySpeed += m_constants.translationalFriction * m_ySpeed/Math.abs(m_ySpeed);
-  m_rotSpeed = rotSpeed;
-  
+  m_rotSpeed = rotSpeed; //dont add for rotation because pid accounts in heading correction
+
   m_isFieldRelative = isFieldRelative;
 }
 
@@ -130,7 +130,7 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
     else if(m_xSpeed != 0 || m_ySpeed != 0){ //if moving at all, assume drift, but if rotating, then first conditional just sets isTurning as true, no heading correction
       m_rotSpeed = m_pidController.calculate(Math.toRadians(m_gyro.getAngle()) %(Math.PI *2) + (Math.PI *2) %(Math.PI *2)); //if off, gives correction as rotation speed
       //if value less than tolerance (1/36), then calculate is just 0 (no rotate)
-    
+      
     }
 
 
@@ -144,13 +144,13 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
     } else {
       swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
-    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
     
+    m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
     m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
     m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
     m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
     m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
-
+    
     
 
   }

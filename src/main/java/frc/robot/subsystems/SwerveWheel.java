@@ -45,11 +45,14 @@ public class SwerveWheel {
 
     public void setDesiredState(SwerveModuleState state){
         m_driveMotor.set(state.speedMetersPerSecond/m_constants.maxMetersPerSecond);
-
-        m_turningPIDController.setSetpoint(state.angle.getRadians());
+        
+        m_turningPIDController.setSetpoint(state.angle.getRadians()); //want to turn wheel, pid turns wheel 180
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getRadians());
 
         m_turningMotor.set(pidOutput);
+        
+        
+        
     }
     
 }
