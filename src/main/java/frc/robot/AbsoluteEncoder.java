@@ -22,14 +22,15 @@ public class AbsoluteEncoder {
         analogIn = new AnalogInput(channel);
         isInverted = inverted;
         m_offset = offset;
-
     }
 
     public double getDegrees() {
         if (isInverted) {
             return (5 - analogIn.getVoltage() - m_offset) * voltageToDegrees;
         }
+
         return (analogIn.getVoltage() - m_offset) * voltageToDegrees;
+
     }
 
     public double getRadians() {

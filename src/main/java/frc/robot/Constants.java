@@ -18,6 +18,9 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public double maxMetersPerSecond = 3.66;
+    public double maxRadiansPerSecond = 8.76;
+
     public int m_frontLeftDriveMotorPort = 8;
     public int m_frontLeftTurningMotorPort = 1;
 
@@ -33,13 +36,10 @@ public final class Constants {
     public double swerveX = .67 / 2;
     public double swerveY = .25;
 
-    public double maxMetersPerSecond = 3.66;
-    public double maxRadiansPerSecond = 8.76;
-
-    public int frontLeftTurningEncoderPort = 0;
-    public int frontRightTurningEncoderPort = 1;
-    public int backRightTurningEncoderPort = 2;
-    public int backLeftTurningEncoderPort = 3;
+    public int m_frontLeftTurningEncoderPort = 0;
+    public int m_frontRightTurningEncoderPort = 1;
+    public int m_backLeftTurningEncoderPort = 2;
+    public int m_backRightTurningEncoderPort = 3;
 
     public double frontLeftSwerveOffset = 2.254991;
     public double frontRightSwerveOffset = 2.466641;

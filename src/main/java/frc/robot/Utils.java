@@ -11,17 +11,18 @@ package frc.robot;
  * Add your docs here.
  */
 public class Utils {
-    //if universal variables, and all static methods, then default constructor can be used
+    // if universal variables, and all static methods, then default constructor can
+    // be used
 
-    //no variables, so no constructor needed
-    public static double deadZones(double input, double deadZone){ //controller deadzone
-        if(Math.abs(input) < deadZone){
+    // no variables, so no constructor needed
+    public static double deadZones(double input, double deadZone) { // controller deadzone
+        if (Math.abs(input) < deadZone) {
             return 0;
         }
-        return input; //dont integrate oddSquare bc dont always want
+        return input; // dont integrate oddSquare bc dont always want
     }
 
-    public static double oddSquare(double input){
+    public static double oddSquare(double input) {
         return input * Math.abs(input);
     }
 }

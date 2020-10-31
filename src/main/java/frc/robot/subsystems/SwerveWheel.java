@@ -42,6 +42,7 @@ public class SwerveWheel {
 
     public Translation2d getLocation() {
         return m_location;
+
     }
 
     public void setDesiredState(SwerveModuleState state) {
@@ -51,6 +52,7 @@ public class SwerveWheel {
         double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getRadians());
 
         m_turningMotor.set(pidOutput);
+
     }
 
 }
