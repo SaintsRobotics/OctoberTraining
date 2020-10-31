@@ -48,7 +48,26 @@ public class SwerveWheel {
 
     }
 
+
+    private double smartInversion (SwerveModuleState targetState) {
+        double targetHeading = targetState.angle.getRadians();
+        double diff = Math.abs(m_turningEncoder.getRadians() - targetHeading);
+        
+        if (diff > Math.PI) { // taking the shortest way around the circle
+            diff = Math.PI * 2 - diff;
+        }
+
+        if (diff > Math.PI/2) { // actual smart inversion
+            targetHeading += Math.PI;
+            targetHeading %= 2 * Math.PI;
+            targetState.speedMetersPerSecond *= -1;
+        }
+        m_turningPIDController.setSetpoint((targetHeading % (2 * Math.PI) + (2 * Math.PI) % (2 * Math.PI)));
+        return targetState.speedMetersPerSecond;
+    }
+
     public void setDesiredState(SwerveModuleState state) {
+        double driveOutput = smartInversion(state);
         m_driveMotor.set(state.speedMetersPerSecond / m_constants.maxMetersPerSecond);
 
         m_turningPIDController.setSetpoint(state.angle.getRadians());
