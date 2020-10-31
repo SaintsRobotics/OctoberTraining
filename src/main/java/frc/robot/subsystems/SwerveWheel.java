@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
 import frc.robot.AbsoluteEncoder;
 
@@ -35,12 +36,14 @@ public class SwerveWheel {
         m_turningPIDController = new PIDController(.3, 0, 0);
         m_turningPIDController.enableContinuousInput(0, 2*Math.PI);
         m_turningEncoder = encoder;
+        m_constants = constants;
         //issue with above encoder, need hardware signal, need to make own encoder
 
     }
 
-    public Translation2d getLocation(){
+    public Translation2d getLocation() {
         return m_location;
+
     }
 
     public void setDesiredState(SwerveModuleState state){
@@ -54,5 +57,5 @@ public class SwerveWheel {
         
         
     }
-    
+
 }

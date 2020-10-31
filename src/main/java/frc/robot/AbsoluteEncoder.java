@@ -29,6 +29,7 @@ public class AbsoluteEncoder {
             return (5-analogIn.getVoltage()-m_offset)*voltageToDegrees; //offset is voltage on encoder when wheel points in correct direction, so proper "0" degrees direction
         }
         return (analogIn.getVoltage()-m_offset)*voltageToDegrees;
+        
     }
 
     private double getRadians(){
