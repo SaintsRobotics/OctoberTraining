@@ -17,10 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
-<<<<<<< HEAD
 import frc.robot.AbsoluteEncoder;
-=======
->>>>>>> master
 
 /**
  * Add your docs here.
