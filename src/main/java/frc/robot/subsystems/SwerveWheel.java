@@ -14,9 +14,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import frc.robot.AbsoluteEncoder;
 import frc.robot.Constants;
+<<<<<<< HEAD
 import frc.robot.AbsoluteEncoder;
+=======
+>>>>>>> master
 
 /**
  * Add your docs here.

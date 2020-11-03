@@ -137,39 +137,33 @@ public void move(double xSpeed, double ySpeed, double rotSpeed, boolean isFieldR
       //if value less than tolerance (1/36), then calculate is just 0 (no rotate)
       
     }
-
-
-
-
-
-    }
-
     SwerveModuleState[] swerveModuleStates;
     if (m_isFieldRelative) { // chassisspeeds for first conditional is from wpilib, doesnt need instantiated
-      swerveModuleStates = m_kinematics
-          .toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed,
-              new Rotation2d(((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2)))); // instead
-                                                                                                                       // of
-                                                                                                                       // new
-                                                                                                                       // chassisspeeds,
-                                                                                                                       // use
-                                                                                                                       // method
-                                                                                                                       // from
-                                                                                                                       // chassisspeeds
-                                                                                                                       // to
-                                                                                                                       // field
-                                                                                                                       // relative
+        swerveModuleStates = m_kinematics.toSwerveModuleStates(
+                ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, new Rotation2d(
+                        ((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2)))); // instead
+                                                                                                                  // of
+                                                                                                                  // new
+                                                                                                                  // chassisspeeds,
+                                                                                                                  // use
+                                                                                                                  // method
+                                                                                                                  // from
+                                                                                                                  // chassisspeeds
+                                                                                                                  // to
+                                                                                                                  // field
+                                                                                                                  // relative
     } else {
-      swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
+        swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
     }
-    
     m_kinematics.normalizeWheelSpeeds(swerveModuleStates, m_constants.maxMetersPerSecond);
     m_frontLeftSwerveWheel.setDesiredState(swerveModuleStates[0]);
     m_frontRightSwerveWheel.setDesiredState(swerveModuleStates[1]);
     m_backLeftSwerveWheel.setDesiredState(swerveModuleStates[2]);
     m_backRightSwerveWheel.setDesiredState(swerveModuleStates[3]);
-    
-    
+
 
   }
 }
+
+
+
