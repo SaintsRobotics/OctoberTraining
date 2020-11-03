@@ -27,6 +27,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   private CANSparkMax m_frontRightDriveMotor;
   private CANSparkMax m_backLeftDriveMotor;
   private CANSparkMax m_backRightDriveMotor;
+
   private CANSparkMax m_frontLeftTurningMotor;
   private CANSparkMax m_frontRightTurningMotor;
   private CANSparkMax m_backLeftTurningMotor;
@@ -125,8 +126,10 @@ public class SwerveDrivetrain extends SubsystemBase {
     if (Utils.deadZones(m_gyro.getRate(), 0.05) != 0) { // checks rotation, always is a value bc vibrate -> need
                                                         // deadzone to eliminate common vibrations
       m_isTurning = true;
-    } else if (m_isTurning = true && Utils.deadZones(m_gyro.getRate(), 0.05) == 0) { // if deadzone/getRate is 0, so not
-                                                                                     // turning, but m_isTurning is true
+    } else if (m_isTurning = true && Utils.deadZones(m_gyro.getRate(), 0.05) == 0) { // if deadzone/getRate is 0, so
+                                                                                     // not
+                                                                                     // turning, but m_isTurning is
+                                                                                     // true
                                                                                      // (we were just turning), then
                                                                                      // want to do smth
       m_isTurning = false;
@@ -137,20 +140,26 @@ public class SwerveDrivetrain extends SubsystemBase {
                                                                                                                       // for
                                                                                                                       // now
       m_rotSpeed = m_pidController
-          .calculate(Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)); // gets the
-                                                                                                         // error to
+          .calculate(Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)); // gets
+                                                                                                         // the
+                                                                                                         // error
+                                                                                                         // to
                                                                                                          // correct
                                                                                                          // heading
-                                                                                                         // times kp,
-                                                                                                         // using gyro
+                                                                                                         // times
+                                                                                                         // kp,
+                                                                                                         // using
+                                                                                                         // gyro
                                                                                                          // angle
     } else if (m_xSpeed != 0 || m_ySpeed != 0) { // if moving at all, assume drift, but if rotating, then first
                                                  // conditional just sets isTurning as true, no heading correction
       m_rotSpeed = m_pidController
-          .calculate(Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)); // if off,
+          .calculate(Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2) + (Math.PI * 2) % (Math.PI * 2)); // if
+                                                                                                         // off,
                                                                                                          // gives
                                                                                                          // correction
-                                                                                                         // as rotation
+                                                                                                         // as
+                                                                                                         // rotation
                                                                                                          // speed
       // if value less than tolerance (1/36), then calculate is just 0 (no rotate)
 

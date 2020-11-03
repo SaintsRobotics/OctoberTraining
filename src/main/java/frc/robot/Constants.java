@@ -47,5 +47,4 @@ public final class Constants {
     public double backRightSwerveOffset = 3.25;
 
     public double translationalFriction = 0.0205;
-
 }
