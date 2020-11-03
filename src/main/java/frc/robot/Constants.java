@@ -35,6 +35,8 @@ public final class Constants {
 
     public double swerveX = .67 / 2;
     public double swerveY = .25;
+<<<<<<< HEAD
+=======
 
     public int m_frontLeftTurningEncoderPort = 0;
     public int m_frontRightTurningEncoderPort = 1;
@@ -48,4 +50,5 @@ public final class Constants {
 
     public double translationalFriction = 0.0205;
 
+>>>>>>> cc23a6c600c832cef0223587c31f6f278d54cf35
 }

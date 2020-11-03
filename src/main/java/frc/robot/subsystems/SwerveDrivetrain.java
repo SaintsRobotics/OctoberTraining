@@ -27,7 +27,6 @@ public class SwerveDrivetrain extends SubsystemBase {
   private CANSparkMax m_frontRightDriveMotor;
   private CANSparkMax m_backLeftDriveMotor;
   private CANSparkMax m_backRightDriveMotor;
-
   private CANSparkMax m_frontLeftTurningMotor;
   private CANSparkMax m_frontRightTurningMotor;
   private CANSparkMax m_backLeftTurningMotor;
