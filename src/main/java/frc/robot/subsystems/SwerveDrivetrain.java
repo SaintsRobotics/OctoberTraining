@@ -109,21 +109,13 @@ public class SwerveDrivetrain extends SubsystemBase {
     m_pidController.setTolerance(1 / 36); // if off by a lil bit, then dont do anything (is in radians)
   }
 
-  SwerveModuleState[] swerveModuleStates;if(m_isFieldRelative)
-  { // chassisspeeds for first conditional is from wpilib, doesnt need instantiated
+  SwerveModuleState[] swerveModuleStates;
+
+  if(m_isFieldRelative)
+  {
     swerveModuleStates = m_kinematics
         .toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed,
-            new Rotation2d(((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2)))); // instead
-                                                                                                                     // of
-                                                                                                                     // new
-                                                                                                                     // chassisspeeds,
-                                                                                                                     // use
-                                                                                                                     // method
-                                                                                                                     // from
-                                                                                                                     // chassisspeeds
-                                                                                                                     // to
-                                                                                                                     // field
-                                                                                                                     // relative
+            new Rotation2d(((Math.toRadians(m_gyro.getAngle()) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2)))); // relative
   }else
   {
     swerveModuleStates = m_kinematics.toSwerveModuleStates(new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed));
